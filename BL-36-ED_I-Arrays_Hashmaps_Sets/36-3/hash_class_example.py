@@ -16,7 +16,7 @@ Vamos inicializar nossa classe HashMap e definir o método get_address() :
 
 class HashMap:
     def __init__(self):
-        self._buckets = [None for i in range(10)]
+        self._buckets = [[] for i in range(10)]
 
     def get_address(self, id_num):
         return id_num % 10
@@ -28,7 +28,7 @@ class HashMap:
 
     def insert(self, employee):
         address = self.get_address(employee.id_num)
-        self._buckets[address] = employee
+        self._buckets[address].append(employee)
 
     """
     Para acessar o dado de interesse, passamos a chave. A classe identifica o
@@ -38,7 +38,11 @@ class HashMap:
 
     def get_value(self, id_num):
         address = self.get_address(id_num)
-        return self._buckets[address].name
+
+        for item in self._buckets[address]:
+            if item.id_num == id_num:
+                return item.name
+        return None
 
     """
     Para consultar se uma determinada chave existe dentro da sua hash map,
@@ -52,6 +56,9 @@ class HashMap:
 
     def update(self, id_num, new_name):
         address = self.get_address(id_num)
+
+        # for item in self._buckets[address]:
+
         employee = self._buckets[address]
         employee.name = new_name
 
